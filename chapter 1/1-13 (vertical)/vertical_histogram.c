@@ -6,7 +6,7 @@ int main(){
     int words[21];
     len = max = 0;
     //Kullanmadan once listeyi temizliyoruz cunku ici random dolu.
-    for (int i = 1; i < 21;++i){
+    for (int i = 0; i < 21;++i){
         words[i] = 0;
     }
     while ((c = getchar()) != EOF){
