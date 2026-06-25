@@ -5,27 +5,37 @@ int main(){
     int c, len, max;
     int words[20];
     len = max = 0;
+    //Kullanmadan once listeyi temizliyoruz cunku ici random dolu.
     for (int i = 0; i < 20;++i){
         words[i] = 0;
     }
     while ((c = getchar()) != EOF){
-
+        //char sayiyor. Kelimenin uzunlugu
         if (c!=' ' && c!= '\t' && c!= '\n'){
             ++len;
         }
+        /*araya bosluk girince kelime bitiyor, leni index olarak olarak kullanip
+        len uzunlugundaki kelimeler degerini 1 arttiriyor*/
         else{
             ++words[len];
-
+            //yeni kelimeye gecmeden once sifirliyor ki yeni kelimenin uzunlugunu hesaplayalim.
             len = 0;
         }
     }
+    //Kac harflik kelimeden en cok var hesaplamasi. Cunku yukaridan asagi yazacagimiz icin yukseklik lazim.
     for(int i =0;i<20;++i){
         if (words[i]>max){
             max = words[i];
         }
     }
+    //sutun, max'tan sifira iniyor. yukseklik
     for (int i = max; i > 0;--i){
+        //satir, 20 satir olacak
         for (int z = 0; z<20;++z){
+            /* eger 'z' harflik kelime sayisi i'den, yani yukseklikten buyuk veya esitse.
+            yani mesela 3 harflik kelimeden, su an i=4 diyelim.4 veya daha cok varsa
+            * yazdiracagiz. eger 3 tane varsa yazdirmayacak, sonraki dongude i 3 oldugu zaman
+            yazmaya baslayacak*/
             if (words[z] >= i){
                 printf("| * |");
             }
@@ -35,6 +45,7 @@ int main(){
         }
         printf("\n");
     }
+    // harf sayilarini yazdirmak icin.
     for (int i = 0; i < 20;++i){
         if (i<10){
             printf("| %d |",i);
