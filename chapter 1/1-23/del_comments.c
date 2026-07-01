@@ -39,27 +39,33 @@ int getinput(char s[], int limit){
     return i;
 }
 void del_comments(char from[], char to[]){
-	int i_index,z_index;
-	i_index = z_index = 0;
-	state = IN;
-	while(from[i_index]!=EOF){
-		if (state == IN){
-			if (from[i_index] == 'o' && from[i_index+1] == '*'){
-				state = OUT;
-				++i_index;
-				while (state == OUT){
-					if (from[i_index] == '*' && from[i_index+1] == 'i'){
-						state = IN;
-						++i_index;
-					}
-					++i_index;
-				
-					
-				}
-			}
-			to[z_index] = from[i_index];
-			++z_index;
-			++i_index;
-	}
-	}
+    int i_index, z_index;
+    i_index = z_index = 0;
+
+    state = IN;
+
+    while (state == IN && from[i_index]!=EOF){
+        //Eger c = / ve sonraki de esite *
+        if (from[i_index] == '/' && from[i_index+1] == '*'){
+            //i_index 2 atla. Cunku / ve * yazdirilmayacak.
+            state = OUT;
+            ++i_index;
+            ++i_index;
+            // state OUT ken IN olana kadar donsun
+            while (state == OUT){
+                if(from[i_index] == '*' && from[i_index+1] == '/'){
+                    state = IN;
+                    ++i_index;
+                }else{
+                    ++i_index;
+                }
+            }
+        }else{
+            to[z_index] = from[i_index];
+            ++i_index;
+            ++z_index;
+            to[z_index] = '\0';
+        }
+    }
+
 }
