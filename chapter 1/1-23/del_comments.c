@@ -44,7 +44,7 @@ void del_comments(char from[], char to[]){
 
     state = IN;
 
-    while (state == IN && from[i_index]!=EOF){
+    while (state == IN && from[i_index]!='\0'){
         //Eger c = / ve sonraki de esite *
         if (from[i_index] == '/' && from[i_index+1] == '*'){
             //i_index 2 atla. Cunku / ve * yazdirilmayacak.
@@ -55,6 +55,7 @@ void del_comments(char from[], char to[]){
             while (state == OUT){
                 if(from[i_index] == '*' && from[i_index+1] == '/'){
                     state = IN;
+                    ++i_index;
                     ++i_index;
                 }else{
                     ++i_index;
