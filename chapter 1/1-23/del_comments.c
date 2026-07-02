@@ -1,21 +1,15 @@
 #include <stdio.h>
-
 #define MAXLINE 1000
-
 #define IN 1
 #define OUT 0
-
 /*Exercise 1-23. Write a program to remove all
 comments from a C program.
 Don't forget to handle quoted strings and
 character constants properly. C comments
 do not nest.*/
-
 int getinput(char s[], int limit);
 void del_comments(char from[], char to[]);
-
 int state;
-
 int main(){
     char s[MAXLINE];
     char new_s[MAXLINE];
@@ -23,10 +17,8 @@ int main(){
     getinput(s,MAXLINE);
     del_comments(s,new_s);
     printf("%s",new_s);
-
     return 0;
 }
-
 int getinput(char s[], int limit){
     int c,i;
     i = 0;
@@ -40,7 +32,6 @@ int getinput(char s[], int limit){
 void del_comments(char from[], char to[]){
     int i_index, z_index;
     i_index = z_index = 0;
-
     state = IN;
 	while (state == IN && from[i_index]!='\0'){
 		//Eger c = / ve sonraki de esite *
@@ -52,12 +43,12 @@ void del_comments(char from[], char to[]){
 					while (state == OUT){
 						if(from[i_index] == '\n'){
 							state = IN;
-							
-						}else{
+						}
+						else{
 							++i_index;
 						}
 					}
-				}else{
+				}else if (from[i_index+1] == '*'){
 					//i_index 2 atla. Cunku / ve * yazdirilmayacak.
 					state = OUT;
 					++i_index;
@@ -68,13 +59,22 @@ void del_comments(char from[], char to[]){
 							state = IN;
 							++i_index;
 							++i_index;
-						}else{
+						}
+						else{
 							++i_index;
 						}
 					}
 				}
 			}
-		}else{
+			//Eger / sonrasi / veya * degilse devam et. Comment degil.
+			else if (from[i_index+1]!='/' && from[i_index+1]!='*'){
+
+				to[z_index] = from[i_index];
+				++i_index;
+				++z_index;
+			}
+		}
+		else{
 			to[z_index] = from[i_index];
 			++i_index;
 			++z_index;
