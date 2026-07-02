@@ -24,7 +24,6 @@ int main(){
     del_comments(s,new_s);
     printf("%s",new_s);
 
-
     return 0;
 }
 
@@ -43,30 +42,43 @@ void del_comments(char from[], char to[]){
     i_index = z_index = 0;
 
     state = IN;
-
-    while (state == IN && from[i_index]!='\0'){
-        //Eger c = / ve sonraki de esite *
-        if (from[i_index] == '/' && from[i_index+1] == '*'){
-            //i_index 2 atla. Cunku / ve * yazdirilmayacak.
-            state = OUT;
-            ++i_index;
-            ++i_index;
-            // state OUT ken IN olana kadar donsun
-            while (state == OUT){
-                if(from[i_index] == '*' && from[i_index+1] == '/'){
-                    state = IN;
-                    ++i_index;
-                    ++i_index;
-                }else{
-                    ++i_index;
-                }
-            }
-        }else{
-            to[z_index] = from[i_index];
-            ++i_index;
-            ++z_index;
-            to[z_index] = '\0';
-        }
-    }
-
+	while (state == IN && from[i_index]!='\0'){
+		//Eger c = / ve sonraki de esite *
+		if (from[i_index] == '/'){
+			if(from[i_index+1] == '*' || from[i_index+1] == '/'){
+				if (from[i_index+1] == '/'){
+					state = OUT;
+					// state OUT ken IN olana kadar donsun
+					while (state == OUT){
+						if(from[i_index] == '\n'){
+							state = IN;
+							
+						}else{
+							++i_index;
+						}
+					}
+				}else{
+					//i_index 2 atla. Cunku / ve * yazdirilmayacak.
+					state = OUT;
+					++i_index;
+					++i_index;
+					// state OUT ken IN olana kadar donsun
+					while (state == OUT){
+						if(from[i_index] == '*' && from[i_index+1] == '/'){
+							state = IN;
+							++i_index;
+							++i_index;
+						}else{
+							++i_index;
+						}
+					}
+				}
+			}
+		}else{
+			to[z_index] = from[i_index];
+			++i_index;
+			++z_index;
+			to[z_index] = '\0';
+		}
+	}
 }
