@@ -5,6 +5,12 @@
 #define IN 1
 #define OUT 0
 
+/*Exercise 1-23. Write a program to remove all
+comments from a C program.
+Don't forget to handle quoted strings and
+character constants properly. C comments
+do not nest.*/
+
 int state;
 int str;
 
@@ -44,31 +50,65 @@ void del_comments(char from[], char to[])
 	{
 		if (from[i_index] == '"' && str == OUT && state == IN)
 		{
+			to[z_index] = from[i_index];
+			++z_index;
 			str = IN;
+			++i_index;
 		}
 		else if (from[i_index] == '"' && str == IN)
 		{
+			to[z_index] = from[i_index];
+			++z_index;
 			str = OUT;
+			++i_index;
 		}
-		if(from[i_index] == '/' && from[i_index+1] == '*' 
+		if (from[i_index] == '/' && from[i_index+1] == '/'
 		&& str == OUT)
 		{
 			state = OUT;
 			++i_index;
+			++i_index;
+		}
+		else if (from[i_index] == '\n' && state ==OUT)
+		{
+			state = IN;
+		}
+		if(from[i_index] == '/' && from[i_index+1] == '*' 
+		&& str == OUT && state == IN)
+		{
+			printf("i=%d, char=%c, state=%d\n", i_index, from[i_index], state);
+			state = OUT;
+			++i_index;
+			++i_index;
+
 		}
 		else if(from[i_index] == '*' && from[i_index+1] == '/' 
 		&& state == OUT)
 		{
+			
 			state = IN;
+			++i_index;
 			++i_index;
 		}
 		if (state == IN)
 		{
-			to[z_index] = from[i_index];
-			++i_index;
-			++z_index;
+			if (from[i_index] == '/' && from[i_index+1] == '*' && str == OUT)
+			{
+				state = OUT;
+				++i_index;
+				++i_index;
+			}
+			else
+			{
+				printf("i=%d, char=%c, state=%d\n", i_index, from[i_index], state);
+				to[z_index] = from[i_index];
+				++i_index;
+				++z_index;
+			}
+			
 		}
 		else{
+			printf("i=%d, char=%c, state=%d\n", i_index, from[i_index], state);
 			++i_index;
 		}
 		
