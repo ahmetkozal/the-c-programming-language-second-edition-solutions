@@ -73,11 +73,13 @@ int create_symbol_arr(char s[], char symbols[])
         {
             check_str_state(i, s, &str);
             ++i;
+            continue;
         }
         else if (s[i] == '\'')
         {
             check_str_state(i, s, &single_str);
             ++i;
+            continue;
         }
         /////////////////////////////////////
         //COMMENT KONTROLU
@@ -125,7 +127,7 @@ int get_escape_count(int i, char s[])
     return count;
 }
 
-//To checking str states
+//To check str states
 void check_str_state(int index, char s[], int *state_to_change)
 {
     //Eger " gelirse, str OUT ise, oncesi ESCAPE degil ise str=IN
@@ -144,6 +146,7 @@ void check_str_state(int index, char s[], int *state_to_change)
     }
 }
 
+//To check comment states
 void check_comment_state(int i, char s[])
 {
     if (s[i] == '/' && s[i+1] == '*')
