@@ -18,10 +18,13 @@ int get_escape_count(int index, char sp[]);
 void check_for_errors(char s[], int symbols_len);
 
 void check_str_state(int index, char s[], int *state_to_change);
-void check_comment_state(int index, char[], int *state_to_change);
+void check_comment_state(int index, char s[]);
 
-
-
+int str;        
+int single_str;  
+int cmt;         
+int single_cmt;
+    
 int main(){
     char    s[MAXLINE];
     char    symbols[MAXLINE];
@@ -52,11 +55,12 @@ int get_text(char s[], int limit)
 //Yani string ve comment aralarini dahil etme. (){}[] olacak sadece.
 int create_symbol_arr(char s[], char symbols[])
 {
-    int str         = OUT;
-    int single_str  = OUT;
-    int cmt         = OUT;
+    str         = OUT;
+    single_str  = OUT;
+    cmt         = OUT;
+    single_cmt  = OUT;
     
-    char symbol_list[] = {"\n(){}[]"};
+    char symbol_list[] = {"(){}[]"};
     
     int i, new_i, escape_count;
     i = new_i = 0;
@@ -77,10 +81,11 @@ int create_symbol_arr(char s[], char symbols[])
         }
         /////////////////////////////////////
         //COMMENT KONTROLU
-        
+        check_comment_state(i,s);
+       
         
         //sadece kontrol edecegimiz sembollerden olusan bir dizi olustur.
-        if(str == OUT && single_str == OUT && cmt == OUT)
+        if(str == OUT && single_str == OUT && cmt == OUT && single_cmt == OUT)
         {
             for (int j = 0;symbol_list[j]!='\0';++j)
             {
@@ -109,14 +114,24 @@ void check_for_errors(char s[],int arr_len)
     }
 }
 
+//To count escapes
+int get_escape_count(int i, char s[])
+{
+    int count = 0;
+    for (int z = i-1;z>=0 && s[z] == '\\';--z)
+    {
+        ++count;
+    }
+    return count;
+}
+
 //To checking str states
 void check_str_state(int index, char s[], int *state_to_change)
 {
     //Eger " gelirse, str OUT ise, oncesi ESCAPE degil ise str=IN
     //Eger " oncesi \->escape ise escape_count saymaya basla. escape_count % 2 == 0 ise str = IN olacak
-    int escape_count = 0;
     
-    if (get_escape_count(index,s)%2 == 0)
+    if (get_escape_count(index,s) %2 == 0)
     {
         if (*state_to_change == OUT)
         {
@@ -129,13 +144,39 @@ void check_str_state(int index, char s[], int *state_to_change)
     }
 }
 
-//To count escapes
-int get_escape_count(int i, char s[])
+void check_comment_state(int i, char s[])
 {
-    int count = 0;
-    for (int z = i-1;z>=0 && s[z] == '\\';--z)
+    if (s[i] == '/' && s[i+1] == '*')
     {
-        ++count;
+        if (str == OUT && single_str == OUT && cmt == OUT && single_cmt == OUT)
+        {
+            if (get_escape_count(i,s) % 2 == 0)
+            {
+                cmt = IN;
+            }
+        }
     }
-    return count;
+    else if(s[i] == '*' && s[i+1] == '/')
+    {
+        if (cmt == IN){
+            if (get_escape_count(i,s) % 2 == 0)
+            {
+                cmt = OUT;
+            }
+        }
+    }
+    if (s[i] == '/' && s[i+1] == '/')
+    {
+        if (str == OUT && single_str == OUT && cmt == OUT && single_cmt == OUT)
+        {
+            if (get_escape_count(i,s) % 2 == 0)
+            {
+                single_cmt = IN;
+            }
+        }
+    }
+    else if(s[i] == '\n' && single_cmt == IN)
+    {
+        single_cmt = OUT;
+    }
 }
