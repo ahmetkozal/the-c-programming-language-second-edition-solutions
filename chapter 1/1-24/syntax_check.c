@@ -1,7 +1,7 @@
 #include <stdio.h>
 /*Exercise 1-24. Write a program to check a C program
 for rudimentary syntax errors like unmatched parentheses
-and braces. Don't forget about quotes, both single and 
+and braces. Don't forget about quotes, both single and
 double, escape sequences, and comments. (This program is hard
 if you do it in full generality.)*/
 /*(())[""]"{}"{*/
@@ -15,26 +15,25 @@ int create_symbol_arr(char s[],char symbols[]);
 
 int get_escape_count(int index, char sp[]);
 
-void check_for_errors(char s[], int symbols_len);
+void check_for_errors(char s[]);
 
 void check_str_state(int index, char s[], int *state_to_change);
 void check_comment_state(int index, char s[]);
 
-int str;        
-int single_str;  
-int cmt;         
+int str;
+int single_str;
+int cmt;
 int single_cmt;
-    
+
 int main(){
     char    s[MAXLINE];
     char    symbols[MAXLINE];
-    int     symbols_len;
-    
+
     get_text(s,MAXLINE);
     printf("I:\n%s\n",s);
-    symbols_len = create_symbol_arr(s,symbols);
-    printf("O:\n%s",symbols);
-    check_for_errors(symbols,symbols_len);
+    create_symbol_arr(s,symbols);
+    printf("O:\n%s\n",symbols);
+    //check_for_errors(symbols);
     return 0;
 }
 
@@ -55,18 +54,20 @@ int get_text(char s[], int limit)
 //Yani string ve comment aralarini dahil etme. (){}[] olacak sadece.
 int create_symbol_arr(char s[], char symbols[])
 {
+    //printf("DEBUG: str=%d, single_str=%d, cmt=%d, single_cmt=%d\n", str, single_str, cmt, single_cmt);
     str         = OUT;
     single_str  = OUT;
     cmt         = OUT;
     single_cmt  = OUT;
-    
+
     char symbol_list[] = {"(){}[]"};
-    
-    int i, new_i, escape_count;
+
+    int i, new_i;
     i = new_i = 0;
-    
+
     while(s[i]!='\0')
     {
+        //printf("DEBUG: i=%d, char='%c', str=%d, single_str=%d, cmt=%d, single_cmt=%d\n", i, s[i], str, single_str, cmt, single_cmt);
         /////////////////////////////////////
         //STR DURUM KONTROLU
         if (s[i] == '"')
@@ -84,8 +85,8 @@ int create_symbol_arr(char s[], char symbols[])
         /////////////////////////////////////
         //COMMENT KONTROLU
         check_comment_state(i,s);
-       
-        
+
+
         //sadece kontrol edecegimiz sembollerden olusan bir dizi olustur.
         if(str == OUT && single_str == OUT && cmt == OUT && single_cmt == OUT)
         {
@@ -93,6 +94,7 @@ int create_symbol_arr(char s[], char symbols[])
             {
                 if (s[i] == symbol_list[j])
                 {
+                    //printf("DEBUG: adding %c\n", s[i]);
                     symbols[new_i] = s[i];
                     ++new_i;
                     break;
@@ -105,13 +107,13 @@ int create_symbol_arr(char s[], char symbols[])
     return new_i;
 }
 
-void check_for_errors(char s[],int arr_len)
+void check_for_errors(char s[])
 {
     int i = 0;
     while (s[i]!='\0')
     {
-        
-        
+
+
         ++i;
     }
 }
@@ -132,7 +134,7 @@ void check_str_state(int index, char s[], int *state_to_change)
 {
     //Eger " gelirse, str OUT ise, oncesi ESCAPE degil ise str=IN
     //Eger " oncesi \->escape ise escape_count saymaya basla. escape_count % 2 == 0 ise str = IN olacak
-    
+
     if (get_escape_count(index,s) %2 == 0)
     {
         if (*state_to_change == OUT)

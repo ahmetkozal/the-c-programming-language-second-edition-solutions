@@ -1,0 +1,12 @@
+/* blok yorum ( { } [ ] ) */
+// satir yorumu ( )
+int main() {
+    char s[] = "string içinde ( ve { }";
+    char c = '{';
+    char d = '\'';
+    printf("kaçisli tirnak: \" \n");
+    /* yorum içinde kaçis: \" */
+    if (x > 0) {
+        x = (a + b) * c;
+    }
+}
