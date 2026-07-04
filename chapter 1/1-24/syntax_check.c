@@ -13,10 +13,14 @@ if you do it in full generality.)*/
 int get_text(char s[], int limit);
 int create_symbol_arr(char s[],char symbols[]);
 
+int get_escape_count(int index, char sp[]);
+
 void check_for_errors(char s[], int symbols_len);
 
 void check_str_state(int index, char s[], int *state_to_change);
 void check_comment_state(int index, char[], int *state_to_change);
+
+
 
 int main(){
     char    s[MAXLINE];
@@ -105,16 +109,14 @@ void check_for_errors(char s[],int arr_len)
     }
 }
 
+//To checking str states
 void check_str_state(int index, char s[], int *state_to_change)
 {
     //Eger " gelirse, str OUT ise, oncesi ESCAPE degil ise str=IN
     //Eger " oncesi \->escape ise escape_count saymaya basla. escape_count % 2 == 0 ise str = IN olacak
     int escape_count = 0;
-    for (int z = index-1; z>=0 && s[z] == '\\';--z)
-    {
-        ++escape_count;
-    }
-    if (escape_count%2 == 0)
+    
+    if (get_escape_count(index,s)%2 == 0)
     {
         if (*state_to_change == OUT)
         {
@@ -125,4 +127,15 @@ void check_str_state(int index, char s[], int *state_to_change)
             *state_to_change = OUT;
         }
     }
+}
+
+//To count escapes
+int get_escape_count(int i, char s[])
+{
+    int count = 0;
+    for (int z = i-1;z>=0 && s[z] == '\\';--z)
+    {
+        ++count;
+    }
+    return count;
 }
