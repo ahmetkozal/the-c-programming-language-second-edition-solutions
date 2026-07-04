@@ -15,10 +15,12 @@ int create_symbol_arr(char s[],char symbols[]);
 
 int get_escape_count(int index, char sp[]);
 
-void check_for_errors(char s[]);
+void check_for_errors(char s[], int symbol_len);
 
 void check_str_state(int index, char s[], int *state_to_change);
 void check_comment_state(int index, char s[]);
+
+void pop(char s[], int index);
 
 int str;
 int single_str;
@@ -29,12 +31,29 @@ int main(){
     char    s[MAXLINE];
     char    symbols[MAXLINE];
 
-    get_text(s,MAXLINE);
-    printf("I:\n%s\n",s);
-    create_symbol_arr(s,symbols);
-    printf("O:\n%s\n",symbols);
-    //check_for_errors(symbols);
+    int symbol_len;
+
+    get_text(s,MAXLINE); //Get input
+    printf("I:\n%s\n",s); //Print input
+    symbol_len = create_symbol_arr(s,symbols); //Sadece gerekli sembolleri al, bu sirada leni de al
+    printf("O:\n%s\n",symbols); //print kontrol edilecek semboller
+    check_for_errors(symbols,symbol_len); //hata icin kontrol et
+    printf("\n");
     return 0;
+}
+
+void check_for_errors(char s[],int l)
+{
+    int i = 0;
+    char stack[l];
+
+
+    stack[i] = '\0';
+
+}
+void pop (char s[], int i)
+{
+    s[i] = '\0';
 }
 
 int get_text(char s[], int limit)
@@ -105,17 +124,6 @@ int create_symbol_arr(char s[], char symbols[])
     }
     symbols[new_i] = '\0';
     return new_i;
-}
-
-void check_for_errors(char s[])
-{
-    int i = 0;
-    while (s[i]!='\0')
-    {
-
-
-        ++i;
-    }
 }
 
 //To count escapes
