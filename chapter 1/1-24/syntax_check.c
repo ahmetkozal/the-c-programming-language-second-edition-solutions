@@ -6,18 +6,22 @@ double, escape sequences, and comments. (This program is hard
 if you do it in full generality.)*/
 /*(())[""]"{}"{*/
 #define MAXLINE 1000
-#define IN 1
-#define OUT 0
+#define IN      1
+#define OUT     0
 
 
 int get_text(char s[], int limit);
 int create_symbol_arr(char s[],char symbols[]);
+
 void check_for_errors(char s[], int symbols_len);
 
+void check_str_state(int index, char s[], int *state_to_change);
+void check_comment_state(int index, char[], int *state_to_change);
+
 int main(){
-    char s[MAXLINE];
-    char symbols[MAXLINE];
-    int symbols_len;
+    char    s[MAXLINE];
+    char    symbols[MAXLINE];
+    int     symbols_len;
     
     get_text(s,MAXLINE);
     printf("I:\n%s\n",s);
@@ -44,8 +48,9 @@ int get_text(char s[], int limit)
 //Yani string ve comment aralarini dahil etme. (){}[] olacak sadece.
 int create_symbol_arr(char s[], char symbols[])
 {
-    int str = OUT;
-    int cmt = OUT;
+    int str         = OUT;
+    int single_str  = OUT;
+    int cmt         = OUT;
     
     char symbol_list[] = {"\n(){}[]"};
     
@@ -54,31 +59,24 @@ int create_symbol_arr(char s[], char symbols[])
     
     while(s[i]!='\0')
     {
-        //Eger " gelirse, str OUT ise, oncesi ESCAPE degil ise str=IN
-        //Eger " oncesi \->escape ise escape_count saymaya basla. escape_count % 2 == 0 ise str = IN olacak
+        /////////////////////////////////////
+        //STR DURUM KONTROLU
         if (s[i] == '"')
         {
-            escape_count = 0;
-            for (int j = i-1;j>=0 && s[j]=='\\';--j)
-            {
-                ++escape_count;
-            }           
-            if (escape_count%2==0)
-            {
-                if (str == OUT)
-                {
-                    str = IN;
-                }
-                else
-                {
-                    str = OUT;
-                }
-            }
+            check_str_state(i, s, &str);
             ++i;
-        }        
+        }
+        else if (s[i] == '\'')
+        {
+            check_str_state(i, s, &single_str);
+            ++i;
+        }
+        /////////////////////////////////////
+        //COMMENT KONTROLU
+        
         
         //sadece kontrol edecegimiz sembollerden olusan bir dizi olustur.
-        if(str == OUT && cmt == OUT)
+        if(str == OUT && single_str == OUT && cmt == OUT)
         {
             for (int j = 0;symbol_list[j]!='\0';++j)
             {
@@ -104,5 +102,27 @@ void check_for_errors(char s[],int arr_len)
         
         
         ++i;
+    }
+}
+
+void check_str_state(int index, char s[], int *state_to_change)
+{
+    //Eger " gelirse, str OUT ise, oncesi ESCAPE degil ise str=IN
+    //Eger " oncesi \->escape ise escape_count saymaya basla. escape_count % 2 == 0 ise str = IN olacak
+    int escape_count = 0;
+    for (int z = index-1; z>=0 && s[z] == '\\';--z)
+    {
+        ++escape_count;
+    }
+    if (escape_count%2 == 0)
+    {
+        if (*state_to_change == OUT)
+        {
+            *state_to_change = IN;
+        }
+        else
+        {
+            *state_to_change = OUT;
+        }
     }
 }
