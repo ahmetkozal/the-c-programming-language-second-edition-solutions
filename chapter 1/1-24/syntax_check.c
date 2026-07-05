@@ -6,11 +6,11 @@
 
 
 int get_text(char s[], int limit);
-int create_symbol_arr(char s[]);
+int create_symbol_arr(char s[],char symbols[]);
 
 int get_escape_count(int index, char sp[]);
 
-void check_for_errors(char s[], int symbol_len);
+void check_for_errors(char s[]);
 
 void check_str_state(int index, char s[], int *state_to_change);
 void check_comment_state(int index, char s[]);
@@ -34,17 +34,48 @@ int main(){
 
     get_text(s,MAXLINE); //Get input
     printf("I:\n%s\n",s); //Print input
-    symbol_len = create_symbol_arr(s); //Sadece gerekli sembolleri al, bu sirada leni de al
-    printf("O:\n%s\n",symbols); //print kontrol edilecek semboller
-    check_for_errors(symbols,symbol_len); //hata icin kontrol
-    printf("S:\n%s\n",symbols);
+                          //
+    symbol_len = create_symbol_arr(s,symbols); //Sadece gerekli sembolleri al, bu sirada leni de al
+    printf("O:\n%s\n",symbols ); //print kontrol edilecek semboller
+                               //
+    check_for_errors(symbols); //hata icin kontrol
+
     printf("\n"); //son print icin.
     return 0;
 }
 
-void check_for_errors(char s[],int l)
+void check_for_errors(char s[])
 {
-
+    int i = 0;
+    printf("STACK:%s",stack);
+    while(s[i]!='\0')
+    {
+        if (s[i] == ('(') || s[i] == ('{') || s[i] == ('['))
+        {
+            push(s[i]);
+        }
+        else if (s[i] == (')') || s[i] == ('}') || s[i] == (']'))
+        {
+            char c = pop();
+            if (c == '(' && s[i]!=')')
+            {
+                printf("ERROR, NO CLOSING ()");
+            }
+            else if (c == '{' && s[i]!='}')
+            {
+                printf("ERROR, NO CLOSING ()");
+            }
+            else if (c == '[' && s[i]!=']')
+            {
+                printf("ERROR, NO CLOSING ()");
+            }
+            else
+            {
+                printf("NO ERROR");
+            }
+        }
+        ++i;
+    }
 }
 char pop(void)
 {
@@ -55,7 +86,7 @@ char pop(void)
     }
     else
     {
-        return 0;
+        printf("ERROR");
     }
 }
 void push(char c)
@@ -84,7 +115,7 @@ int get_text(char s[], int limit)
     return i;
 }
 
-int create_symbol_arr(char s[]) //Sadece kontrol edecegim sembollerden olusan bir dizi olustur.
+int create_symbol_arr(char s[],char symbols[]) //Sadece kontrol edecegim sembollerden olusan bir dizi olustur.
 {
     //printf("DEBUG: str=%d, single_str=%d, cmt=%d, single_cmt=%d\n", str, single_str, cmt, single_cmt);
     str         = OUT;
@@ -121,7 +152,7 @@ int create_symbol_arr(char s[]) //Sadece kontrol edecegim sembollerden olusan bi
                 if (s[i] == symbol_list[j])
                 {
                     //printf("DEBUG: adding %c\n", s[i]);
-                    stack[new_i] = s[i];
+                    symbols[new_i] = s[i];
                     ++new_i;
                     break;
                 }
@@ -129,7 +160,7 @@ int create_symbol_arr(char s[]) //Sadece kontrol edecegim sembollerden olusan bi
         }
         ++i;
     }
-    stack[new_i] = '\0';
+    symbols[new_i] = '\0';
     return new_i;
 }
 
