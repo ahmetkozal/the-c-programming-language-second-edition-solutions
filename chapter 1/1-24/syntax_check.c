@@ -1,17 +1,12 @@
 #include <stdio.h>
-/*Exercise 1-24. Write a program to check a C program
-for rudimentary syntax errors like unmatched parentheses
-and braces. Don't forget about quotes, both single and
-double, escape sequences, and comments. (This program is hard
-if you do it in full generality.)*/
-/*(())[""]"{}"{*/
+
 #define MAXLINE 1000
 #define IN      1
 #define OUT     0
 
 
 int get_text(char s[], int limit);
-int create_symbol_arr(char s[],char symbols[]);
+int create_symbol_arr(char s[]);
 
 int get_escape_count(int index, char sp[]);
 
@@ -20,12 +15,16 @@ void check_for_errors(char s[], int symbol_len);
 void check_str_state(int index, char s[], int *state_to_change);
 void check_comment_state(int index, char s[]);
 
-void pop(char s[], int index);
+char pop(void);
+void push(char c);
 
 int str;
 int single_str;
 int cmt;
 int single_cmt;
+int stack_pos = 0;
+
+char stack[MAXLINE];
 
 int main(){
     char    s[MAXLINE];
@@ -35,25 +34,41 @@ int main(){
 
     get_text(s,MAXLINE); //Get input
     printf("I:\n%s\n",s); //Print input
-    symbol_len = create_symbol_arr(s,symbols); //Sadece gerekli sembolleri al, bu sirada leni de al
+    symbol_len = create_symbol_arr(s); //Sadece gerekli sembolleri al, bu sirada leni de al
     printf("O:\n%s\n",symbols); //print kontrol edilecek semboller
-    check_for_errors(symbols,symbol_len); //hata icin kontrol et
-    printf("\n");
+    check_for_errors(symbols,symbol_len); //hata icin kontrol
+    printf("S:\n%s\n",symbols);
+    printf("\n"); //son print icin.
     return 0;
 }
 
 void check_for_errors(char s[],int l)
 {
-    int i = 0;
-    char stack[l];
-
-
-    stack[i] = '\0';
 
 }
-void pop (char s[], int i)
+char pop(void)
 {
-    s[i] = '\0';
+    if (stack_pos > 0)
+    {
+        --stack_pos;
+        return stack[stack_pos];
+    }
+    else
+    {
+        return 0;
+    }
+}
+void push(char c)
+{
+    if (stack_pos>MAXLINE)
+    {
+        printf("ERROR");
+    }
+    else
+    {
+        stack[stack_pos] = c;
+        ++stack_pos;
+    }
 }
 
 int get_text(char s[], int limit)
@@ -69,9 +84,7 @@ int get_text(char s[], int limit)
     return i;
 }
 
-//Sadece kontrol edecegim sembollerden olusan bir dizi olustur.
-//Yani string ve comment aralarini dahil etme. (){}[] olacak sadece.
-int create_symbol_arr(char s[], char symbols[])
+int create_symbol_arr(char s[]) //Sadece kontrol edecegim sembollerden olusan bir dizi olustur.
 {
     //printf("DEBUG: str=%d, single_str=%d, cmt=%d, single_cmt=%d\n", str, single_str, cmt, single_cmt);
     str         = OUT;
@@ -87,7 +100,6 @@ int create_symbol_arr(char s[], char symbols[])
     while(s[i]!='\0')
     {
         //printf("DEBUG: i=%d, char='%c', str=%d, single_str=%d, cmt=%d, single_cmt=%d\n", i, s[i], str, single_str, cmt, single_cmt);
-        /////////////////////////////////////
         //STR DURUM KONTROLU
         if (s[i] == '"')
         {
@@ -101,20 +113,15 @@ int create_symbol_arr(char s[], char symbols[])
             ++i;
             continue;
         }
-        /////////////////////////////////////
-        //COMMENT KONTROLU
         check_comment_state(i,s);
-
-
-        //sadece kontrol edecegimiz sembollerden olusan bir dizi olustur.
-        if(str == OUT && single_str == OUT && cmt == OUT && single_cmt == OUT)
+        if(str == OUT && single_str == OUT && cmt == OUT && single_cmt == OUT)//sadece kontrol edecegimiz sembollerden olusan bir dizi olustur.
         {
             for (int j = 0;symbol_list[j]!='\0';++j)
             {
                 if (s[i] == symbol_list[j])
                 {
                     //printf("DEBUG: adding %c\n", s[i]);
-                    symbols[new_i] = s[i];
+                    stack[new_i] = s[i];
                     ++new_i;
                     break;
                 }
@@ -122,12 +129,11 @@ int create_symbol_arr(char s[], char symbols[])
         }
         ++i;
     }
-    symbols[new_i] = '\0';
+    stack[new_i] = '\0';
     return new_i;
 }
 
-//To count escapes
-int get_escape_count(int i, char s[])
+int get_escape_count(int i, char s[])//To count escapes
 {
     int count = 0;
     for (int z = i-1;z>=0 && s[z] == '\\';--z)
@@ -137,13 +143,9 @@ int get_escape_count(int i, char s[])
     return count;
 }
 
-//To check str states
-void check_str_state(int index, char s[], int *state_to_change)
-{
-    //Eger " gelirse, str OUT ise, oncesi ESCAPE degil ise str=IN
-    //Eger " oncesi \->escape ise escape_count saymaya basla. escape_count % 2 == 0 ise str = IN olacak
-
-    if (get_escape_count(index,s) %2 == 0)
+void check_str_state(int index, char s[], int *state_to_change) //To check str states
+{//Eger " gelirse, str OUT ise, oncesi ESCAPE degil ise str=IN
+    if (get_escape_count(index,s) %2 == 0) //Eger " oncesi \->escape ise escape_count saymaya basla. escape_count % 2 == 0 ise str = IN olacak
     {
         if (*state_to_change == OUT)
         {
@@ -156,8 +158,7 @@ void check_str_state(int index, char s[], int *state_to_change)
     }
 }
 
-//To check comment states
-void check_comment_state(int i, char s[])
+void check_comment_state(int i, char s[]) //To check comment states
 {
     if (s[i] == '/' && s[i+1] == '*')
     {
