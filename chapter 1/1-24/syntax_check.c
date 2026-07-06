@@ -57,7 +57,7 @@ void check_for_errors(char s[])
         else if (s[i] == (')') || s[i] == ('}') || s[i] == (']'))
         {
             char c = pop();
-            printf("CHAR:%c\n",c);
+            printf("%d: CHAR:%c\n",i, c);
             printf("S:%c\n",s[i]);
             if (c == '(' && s[i]!=')')
             {
@@ -76,7 +76,7 @@ void check_for_errors(char s[])
                 printf("NO ERROR\n");
             }
         }
-        printf("STACK-->%s\n", stack);
+        printf("%d: STACK-->%s\n",i, stack);
         ++i;
     }
 }
@@ -89,7 +89,8 @@ char pop(void)
     }
     else
     {
-        printf("ERROR\n");
+        printf("ERROR-Stack is empty\n");
+        return stack[stack_pos];
     }
 }
 void push(char c)
