@@ -57,26 +57,24 @@ void check_for_errors(char s[])
         else if (s[i] == (')') || s[i] == ('}') || s[i] == (']'))
         {
             char c = pop();
-            printf("CHAR:%c\n",c);
-            printf("S:%c\n",s[i]);
+	    printf("CHAR:%c\n",c);
             if (c == '(' && s[i]!=')')
             {
-                printf("ERROR, NO CLOSING ()\n");
+                printf("ERROR, NO CLOSING ()");
             }
             else if (c == '{' && s[i]!='}')
             {
-                printf("ERROR, NO CLOSING {}\n");
+                printf("ERROR, NO CLOSING ()");
             }
             else if (c == '[' && s[i]!=']')
             {
-                printf("ERROR, NO CLOSING []\n");
+                printf("ERROR, NO CLOSING ()");
             }
             else
             {
-                printf("NO ERROR\n");
+                printf("NO ERROR");
             }
         }
-        printf("STACK-->%s\n", stack);
         ++i;
     }
 }
@@ -89,14 +87,14 @@ char pop(void)
     }
     else
     {
-        printf("ERROR\n");
+        printf("ERROR");
     }
 }
 void push(char c)
 {
     if (stack_pos>MAXLINE)
     {
-        printf("ERROR\n");
+        printf("ERROR");
     }
     else
     {
