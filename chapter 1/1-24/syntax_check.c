@@ -22,7 +22,7 @@ int str;
 int single_str;
 int cmt;
 int single_cmt;
-int stack_pos = -1;
+int stack_pos = -0;
 
 char stack[MAXLINE];
 
@@ -52,11 +52,11 @@ void check_for_errors(char s[])
     {
         if(s[i] == '('){
             push(s[i]);
-            printf("PUSHED: STACK POS = %d | CURRENT STACK %d: %s\n",stack_pos,i,stack);
+            printf("s[i] was %c | PUSHED: STACK POS = %d | CURRENT STACK %d: %s\n",s[i],stack_pos,i,stack);
         }
         else if(s[i] == ')'){
             pop();
-            printf("s[i] was %c, POPPED: STACK POS = %d | CURRENT STACK %d: %s\n",s[i],stack_pos,i,stack);
+            printf("s[i] was %c | POPPED: STACK POS = %d | CURRENT STACK %d: %s\n",s[i],stack_pos,i,stack);
         }
         ++i;
     }
@@ -66,8 +66,9 @@ char pop(void)
 {
     if (stack_pos > -1)
     {
-        stack[stack_pos] = '\0';
         --stack_pos;
+        stack[stack_pos] = '\0';//NO, IT DOESN'T WORK LIKE I THOUGHT IT WOULD.
+        
         return stack[stack_pos];
     }
     else
