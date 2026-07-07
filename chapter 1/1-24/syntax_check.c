@@ -4,7 +4,6 @@
 #define IN      1
 #define OUT     0
 
-
 int get_text(char s[], int limit);
 int create_symbol_arr(char s[],char symbols[]);
 
@@ -22,7 +21,7 @@ int str;
 int single_str;
 int cmt;
 int single_cmt;
-int stack_pos = -0;
+int stack_pos = 0;
 
 char stack[MAXLINE];
 
@@ -56,32 +55,38 @@ void check_for_errors(char s[])
         }
         else if(s[i] == ')' || s[i] == ']' || s[i] == '}'){
             char c = pop();
-			printf("%c\n",c);
+            printf("POPPED | %c\n",c);
             if (c == '(' && s[i] != ')'){
                 printf("ERROR | NO CLOSING (\n");
+                printf("ENDING\n");
+                break;
             }
             else if (c == '[' && s[i] != ']'){
                 printf("ERROR | NO CLOSING [\n");
+                printf("ENDING\n");
+                break;
             }
             else if (c == '{' && s[i] != '}'){
                 printf("ERROR | NO CLOSING {\n");
+                printf("ENDING\n");
+                break;
             }
             else{
                 printf("s[i] was %c | POPPED: STACK POS = %d | CURRENT STACK %d: %s\n",s[i],stack_pos,i,stack); 
-				stack[stack_pos] = '\0';
-			}
+                stack[stack_pos] = '\0';
+            }
         }
         ++i;
     }
     printf("FINAL STACK: %s\n",stack);
-	if(stack_pos!=-0)
-	{
-		printf("ERROR, OPEN LEFT%s\n",stack);
-	}
+    if(stack_pos!=-0)
+    {
+        printf("ERROR, OPEN LEFT%s\n",stack);
+    }
 }
 char pop(void)
 {
-    if (stack_pos > -1)
+    if (stack_pos > 0)
     {
         --stack_pos;
         //stack[stack_pos] = '\0';//NO, IT DOESN'T WORK LIKE I THOUGHT IT WOULD.
