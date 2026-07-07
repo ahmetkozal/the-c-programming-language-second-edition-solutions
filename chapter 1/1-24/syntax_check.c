@@ -188,7 +188,7 @@ void check_str_state(int index, char s[], int *state_to_change) //To check str s
 {//Eger " gelirse, str OUT ise, oncesi ESCAPE degil ise str=IN
     if (get_escape_count(index,s) %2 == 0) //Eger " oncesi \->escape ise escape_count saymaya basla. escape_count % 2 == 0 ise str = IN olacak
     {
-        if (*state_to_change == OUT)
+        if (*state_to_change == OUT && cmt == OUT)
         {
             *state_to_change = IN;
         }
