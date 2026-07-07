@@ -50,24 +50,41 @@ void check_for_errors(char s[])
     printf("STARTING STACK:%s\n",stack);
     while(s[i]!='\0')
     {
-        if(s[i] == '('){
+        if(s[i] == '(' || s[i] == '[' || s[i] == '{'){
             push(s[i]);
             printf("s[i] was %c | PUSHED: STACK POS = %d | CURRENT STACK %d: %s\n",s[i],stack_pos,i,stack);
         }
-        else if(s[i] == ')'){
-            pop();
-            printf("s[i] was %c | POPPED: STACK POS = %d | CURRENT STACK %d: %s\n",s[i],stack_pos,i,stack);
+        else if(s[i] == ')' || s[i] == ']' || s[i] == '}'){
+            char c = pop();
+			printf("%c\n",c);
+            if (c == '(' && s[i] != ')'){
+                printf("ERROR | NO CLOSING (\n");
+            }
+            else if (c == '[' && s[i] != ']'){
+                printf("ERROR | NO CLOSING [\n");
+            }
+            else if (c == '{' && s[i] != '}'){
+                printf("ERROR | NO CLOSING {\n");
+            }
+            else{
+                printf("s[i] was %c | POPPED: STACK POS = %d | CURRENT STACK %d: %s\n",s[i],stack_pos,i,stack); 
+				stack[stack_pos] = '\0';
+			}
         }
         ++i;
     }
     printf("FINAL STACK: %s\n",stack);
+	if(stack_pos!=-0)
+	{
+		printf("ERROR, OPEN LEFT%s\n",stack);
+	}
 }
 char pop(void)
 {
     if (stack_pos > -1)
     {
         --stack_pos;
-        stack[stack_pos] = '\0';//NO, IT DOESN'T WORK LIKE I THOUGHT IT WOULD.
+        //stack[stack_pos] = '\0';//NO, IT DOESN'T WORK LIKE I THOUGHT IT WOULD.
         
         return stack[stack_pos];
     }
