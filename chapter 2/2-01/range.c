@@ -6,7 +6,7 @@ Exercise 2-1. Write a program to determine the ranges of
 !!! char, short, int, and long !!!
 variables, both signed and unsigned, by printing appropriate values from standard headers
 and by direct computation.
-??? Harder if you com pute them: determine the ranges of the various floating-point types.???
+??? Harder if you compute them: determine the ranges of the various floating-point types.???
 */
 // 1 byte -> 8 bit.
 // binary number system is 2 based.
@@ -37,16 +37,16 @@ int main(){
     printf("SIZE OF LONG:\t%d\n",size_long);
     printf("\n");
     printf("COMPUTED:\n");
-    printf("SIGNDED CHAR:\t%d -> %d\n",m_power(-2,(size_char*8)-1),m_power(2,(size_char*8)-1)-1);
+    printf("SIGNDED CHAR:\t%d -> %d\n",m_power((2),(size_char*8)-1)*-1,m_power(2,(size_char*8)-1)-1);
     printf("UNSIGNDED CHAR:\t%d -> %d\n", 0, m_power(2,(size_char*8))-1);
     printf("\n");
-    printf("SIGNDED SHORT:\t%d -> %d\n",m_power(-2,(size_short*8)-1),m_power(2,(size_short*8)-1)-1);
+    printf("SIGNDED SHORT:\t%d -> %d\n",m_power((2),(size_short*8)-1)*-1,m_power(2,(size_short*8)-1)-1);
     printf("UNSIGNDED SHORT:\t%d -> %d\n", 0, m_power(2,(size_short*8))-1);
     printf("\n");
-    printf("SIGNDED INT:\t%d -> %d\n",m_power(-2,(size_int*8)-1),m_power(2,(size_int*8)-1)-1);
+    printf("SIGNDED INT:\t%d -> %d\n",m_power((2),(size_int*8)-1)*-1,m_power(2,(size_int*8)-1)-1);
     printf("UNSIGNDED INT:\t%d -> %u\n", 0, m_power(2,(size_int*8))-1);
     printf("\n");
-    printf("SIGNDED LONG:\t%ld -> %ld\n",m_power(-2,(size_long*8)-1),m_power(2,(size_long*8)-1)-1);
+    printf("SIGNDED LONG:\t%ld -> %ld\n",m_power((2),(size_long*8)-1)*-1,m_power(2,(size_long*8)-1)-1);
     printf("UNSIGNDED LONG:\t%d -> %lu\n", 0, m_power(2,(size_long*8))-1);
     
     printf("\n");
