@@ -9,16 +9,19 @@ and by direct computation.
 ??? Harder if you com pute them: determine the ranges of the various floating-point types.???
 */
 int main(){
-    printf("SIGNED:%d -> %d\n",CHAR_MIN, CHAR_MAX);
-    printf("UNSIGNED:%d -> %d\n\n",0, UCHAR_MAX);
+    printf("NOT COMPUTED:\n");
+    
+    printf("SIGNED CHAR:\t%d -> %d\n",CHAR_MIN, CHAR_MAX);
+    printf("UNSIGNED CHAR:\t%d -> %d\n\n",0, UCHAR_MAX);
 
-    printf("SIGNED:%d -> %d\n",SHRT_MIN, SHRT_MAX);
-    printf("UNSIGNED:%d -> %d\n\n",0, USHRT_MAX);
+    printf("SIGNED SHORT:\t%d -> %d\n",SHRT_MIN, SHRT_MAX);
+    printf("UNSIGNED SHORT:\t%d -> %d\n\n",0, USHRT_MAX);
 
-    printf("SIGNED:%d -> %d\n",INT_MIN, INT_MAX);
-    printf("UNSIGNED:%d -> %d\n",0, UINT_MAX);
+    printf("SIGNED INT:\t%d -> %d\n",INT_MIN, INT_MAX);
+    printf("UNSIGNED INT:\t%d -> %u\n\n",0, UINT_MAX);
 
-    printf("SIGNED:%ld -> %ld\n",LONG_MIN, LONG_MAX);
-    printf("UNSIGNED:%d -> %ld\n",0, ULONG_MAX);
+    printf("SIGNED LONG:\t%ld -> %ld\n",LONG_MIN, LONG_MAX);
+    printf("UNSIGNED LONG:\t%d -> %lu\n\n",0, ULONG_MAX);
+    
     return 0;
 }
