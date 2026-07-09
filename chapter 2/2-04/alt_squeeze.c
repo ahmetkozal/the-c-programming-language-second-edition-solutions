@@ -13,9 +13,9 @@ int main(){
     get_text(s1,limit);
     printf("ENTER THE SECOND TEXT: ");
     get_text(s2,limit);
-    printf("INITIAL:\n%s\n",s1);
+    printf("INITIAL:\t%s\n",s1);
     squeeze(s1,s2);
-    printf("SQUEEZED:\n%s\n",s1);
+    printf("SQUEEZED:\t%s\n",s1);
     return 0;
 }
 void squeeze(char s1[], char s2[]){
@@ -31,8 +31,7 @@ void squeeze(char s1[], char s2[]){
             ++z;
         }
         if (count == 0){
-            s1[write_i] = s1[read_i];
-            ++write_i;
+            s1[write_i++] = s1[read_i];
         }
         ++read_i;
     }
