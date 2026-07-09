@@ -38,5 +38,5 @@ int get_text(char s[], int limit){
         s[i++] = c
         ;
     s[i] = '\0';
-    
+    return i;
 }
