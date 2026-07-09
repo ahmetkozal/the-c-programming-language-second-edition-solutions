@@ -2,37 +2,32 @@
 /*Exercise 2-4. Write an alternative version of squeeze(s1,s2)
 that deletes each character in s1 that matches any character
 in the string s2.*/
-#define MAXLINE 1000
-
 void squeeze(char s1[],char s2[]);
 int main(){
-    char s1[] = "ilk dizi";
-    char s2[] = "iz";
+    char s1[] = "abcabc";
+    char s2[] = "ac";
     printf("INITIAL:\t%s\n",s1);
     squeeze(s1,s2);
     printf("SQUEEZED:\t%s\n",s1);
     return 0;
 }
 void squeeze(char s1[], char s2[]){
-    int s1_i,s2_i;
-    s1_i = 0;
-    while (s1[s1_i]!='\0'){
-        int count;
-        s2_i = count = 0;
-        while (s2[s2_i]!='\0'){
-            if (s1[s1_i] == s2[s2_i]){
-                ++count;
+    int read_i, write_i, z, count;
+    read_i = write_i = 0;
+    while(s1[read_i]!='\0'){
+        z = count =0;
+        while(s2[z]!='\0'){
+            if (s1[read_i] == s2[z]){
+                count = 1;
                 break;
             }
-            ++s2_i;
+            ++z;
         }
         if (count == 0){
-            s1[s1_i] = s1[s1_i];
-            ++s1_i;
-        }else{
-            s1[s1_i] = s1[s1_i+1];
-            ++s1_i;
+            s1[write_i] = s1[read_i];
+            ++write_i;
         }
+        ++read_i;
     }
-    s1[s1_i] = '\0';
+    s1[write_i] = '\0';
 }

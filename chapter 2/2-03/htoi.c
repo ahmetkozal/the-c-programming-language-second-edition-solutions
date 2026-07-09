@@ -7,7 +7,7 @@ its equivalent integer value. The allowable digits are
 //hexadecimal sayı sistemi 16 tabanlıdır.
 int htoi(char s[]);
 int main(){
-    char s[] = "ff";
+    char s[] = "b2e";
     printf("INPUT: %s\n",s);
     printf("%i\n",htoi(s));
     return 0;
