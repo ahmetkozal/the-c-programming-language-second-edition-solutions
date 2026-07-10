@@ -3,6 +3,7 @@
 with the n bits that begin at position p set to the rightmost 
 n bits of y, leaving the other bits unchanged. */
 unsigned int set_bits(unsigned int x, int p, int n,unsigned int y);
+unsigned int final_set_bits(unsigned int x, int p, int n,unsigned int y);
 void print_bits(unsigned int x);
 int main(){
     unsigned int x,y;
@@ -13,6 +14,8 @@ int main(){
     n = 3;
     
     set_bits(x,p,n,y);
+    
+    printf("Second version: %u\n",final_set_bits(x,p,n,y));
     return 0;
 }
 unsigned int set_bits(unsigned int x, int p,int n,unsigned int y){
@@ -45,6 +48,8 @@ unsigned int set_bits(unsigned int x, int p,int n,unsigned int y){
     x = to_x_from_y | x;
     printf("FINAL X: \t");
     print_bits(x);
+    printf("\n");
+    final_set_bits(x,p,n,y);
     
     return x;
 }
@@ -57,4 +62,10 @@ void print_bits(unsigned int x){
             printf("0");
     }
     printf(" | %u\n",x);
+}
+
+unsigned int final_set_bits(unsigned int x, int p, int n,unsigned int y){
+    x = x & ~(((1U << n) - 1U) << (p - n + 1U));
+    y = ((y & ((1U << n) - 1U)) << (p - n + 1U));
+    return x | y;
 }
