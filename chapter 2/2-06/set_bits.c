@@ -7,10 +7,10 @@ void print_bits(unsigned int x);
 int main(){
     unsigned int x,y;
     int p , n;
-    x = 5;
-	y = 2;
-    p = 2;
-    n = 2;
+    x = 63;
+    y = 2;
+    p = 5;
+    n = 3;
     
     set_bits(x,p,n,y);
     return 0;
@@ -18,15 +18,15 @@ int main(){
 int set_bits(int x, int p,int n, int y){
     printf("INITIAL X: \t");
     print_bits(x);
-	
-	printf("INITIAL Y: \t");
+    
+    printf("INITIAL Y: \t");
     print_bits(y);
     
     // 000001 --> 000001 << n=2 --> 000100 --> 000100 - 1 -->>
     // 000011 << p=3 --> 001100 ~ 001100 --> !!110011!!
     
-	printf("p = %i | n = %i\n",p,n);
-    int del_from_x = ~(((1 << n) - 1) << (p - 1));
+    printf("p = %i | n = %i\n",p,n);
+    int del_from_x = ~(((1 << n) - 1) << (p - n + 1));
     printf("DEL FROM X: \t");
     print_bits(del_from_x);
     
@@ -34,11 +34,17 @@ int set_bits(int x, int p,int n, int y){
     printf("MASK FOR Y: \t");
     print_bits(mask);
     
-    int to_x_from_y = y & mask;
+    int to_x_from_y = (y & mask) << (p - n + 1);
     printf("TO X FROM Y: \t");
     print_bits(to_x_from_y);
-	
-	
+    
+    x = x & del_from_x;
+    printf("PRE FINAL X: \t");
+    print_bits(x);
+    
+    x = to_x_from_y | x;
+    printf("FINAL X: \t");
+    print_bits(x);
     
     return x;
 }
