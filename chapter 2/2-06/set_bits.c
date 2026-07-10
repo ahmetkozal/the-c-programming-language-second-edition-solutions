@@ -15,7 +15,7 @@ int main(){
     set_bits(x,p,n,y);
     return 0;
 }
-int set_bits(int x, int p,int n, int y){
+unsigned int set_bits(unsigned int x, int p,int n,unsigned int y){
     printf("INITIAL X: \t");
     print_bits(x);
     
