@@ -6,14 +6,32 @@ the difference in run-time. */
 #define MAXLINE 1000
 int binsearch(int x, int v[], int n);
 int new_binsearch(int x, int v[], int n);
+int new_binsearch(int x, int v[], int n);
 int main(){
     int x, n;
-    x = 5;
+    x = 2;
     n = 9;
     int v[MAXLINE] = {1,2,3,4,5,6,7,8,9};
-    printf("%i\n",binsearch(x,v,n));
+    printf("OLD: %i\n",binsearch(x,v,n));
+    
+    printf("NEW: %i\n",new_binsearch(x,v,n));
     return 0;
 }
+int new_binsearch(int x, int v[], int n){
+    int low, mid, high;
+    low = 0;
+    high = n-1;
+    mid = (low + high) /2 ;
+    while (low <= high && x!=v[mid]){
+        if(x < v[mid])
+            high = mid - 1;
+        else
+            low = mid + 1;
+        mid = (low + high) /2 ;
+    }
+    return (v[mid] == x) ? mid : -1;
+}
+
 int binsearch(int x, int v[], int n){
     int low, high, mid;
     low = 0;
