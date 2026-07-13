@@ -26,14 +26,16 @@ void escape(char s[], char t[]){
                 t[j++] = '\\';
                 t[j++] = 't';
                 ++i;
+                break;
             case '\n':
                 t[j++] = '\\';
                 t[j++] = 'n';
                 ++i;
+                break;
             default:
-                t[j++] = s[i];
+                t[j++] = s[i++];
         }
-        ++i;
+
     }
     t[j] = '\0';
 }
