@@ -157,4 +157,5 @@ void reverse_escape(char s[], char t[]){
         }
     }
     t[j] = '\0';
+
 }
