@@ -17,13 +17,28 @@ int main(){
     printf("123: %s\n", s);
     itob(123, s, 2);
     printf("123: %s\n", s);
-    
+
     itob(-123, s, 10);
     printf("-123: %s\n", s);
-    itob(INT_MIN, s,10);
+    itob(-123, s, 16);
+    printf("-123: %s\n", s);
+    itob(-123, s, 2);
+    printf("-123: %s\n", s);
+
+    itob(INT_MIN, s, 10);
     printf("INT_MIN: %s\n", s);
-    itob(INT_MAX, s,10);
+    itob(INT_MIN, s, 16);
+    printf("INT_MIN: %s\n", s);
+    itob(INT_MIN, s, 2);
+    printf("INT_MIN: %s\n", s);
+
+    itob(INT_MAX, s, 10);
     printf("INT_MAX: %s\n", s);
+    itob(INT_MAX, s, 16);
+    printf("INT_MAX: %s\n", s);
+    itob(INT_MAX, s, 2);
+    printf("INT_MAX: %s\n", s);
+    
     return 0;
 }
 
