@@ -13,7 +13,7 @@ that a leading or trailing - is taken literally.*/
 #define MAXLINE 1000
 void expand(char s1[], char s2[]);
 int main(){
-    char s1[] = "9-z";
+    char s1[] = "f-z";
 
     
     char s2[MAXLINE];
@@ -28,14 +28,11 @@ void expand(char s1[], char s2[]){
     int i, j, c;
     i = j = 0;
     while (s1[i] != '\0'){
-        if (s1[i+1] == '-' && s1[i+2]!='\0' && s1[i]<=s1[i+2]){
-            if ((s1[i] >= 'a' && s1[i+2] <= 'z') || (s1[i] >= 'A' && s1[i+2] <= 'Z')||(s1[i] >= '0' && s1[i+2] <= '9')){
-                for(c = s1[i];c<=s1[i+2];c++)
-                    s2[j++] = c;
-                i+=3;
-            }else{
-                s2[j++] = s1[i++];
-            }
+        if ((s1[i+1] == '-' && s1[i+2]!='\0' && s1[i]<=s1[i+2]) &&
+        ((s1[i] >= 'a' && s1[i+2] <= 'z') || (s1[i] >= 'A' && s1[i+2] <= 'Z')||(s1[i] >= '0' && s1[i+2] <= '9'))){
+            for(c = s1[i];c<=s1[i+2];c++)
+                s2[j++] = c;
+            i+=3;
         }else{
             s2[j++] = s1[i++];
         }
