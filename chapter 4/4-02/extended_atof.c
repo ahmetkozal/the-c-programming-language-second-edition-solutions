@@ -9,9 +9,17 @@ int main() {
     char s[] = "123.45";
     char s2[] = "123.45e-2";
     char s3[] = "123.45e2";
+    char s4[] = "1e3";
+    char s5[] = "1e-3";
+    char s6[] = "-1.5e2";
+    char s7[] = "+2.5e-2";
     printf("%s -> %f\n",s,atof(s));
     printf("%s -> %f\n",s2,atof(s2));
     printf("%s -> %f\n",s3,atof(s3));
+	printf("%s -> %f\n",s4,atof(s4));
+	printf("%s -> %f\n",s5,atof(s5));
+	printf("%s -> %f\n",s6,atof(s6));
+	printf("%s -> %f\n",s7,atof(s7));
     return 0;
 }
 double atof(char s[]){
