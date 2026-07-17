@@ -6,6 +6,7 @@ the form */
 double atof(char s[]);
 double my_pow(double base, int pow_val);
 int main() {
+	char s8[] = "123e10";
     char s[] = "123.45";
     char s2[] = "123.45e-2";
     char s3[] = "123.45e2";
@@ -13,6 +14,7 @@ int main() {
     char s5[] = "1e-3";
     char s6[] = "-1.5e2";
     char s7[] = "+2.5e-2";
+	printf("%s -> %f\n",s8,atof(s8));
     printf("%s -> %f\n",s,atof(s));
     printf("%s -> %f\n",s2,atof(s2));
     printf("%s -> %f\n",s3,atof(s3));
