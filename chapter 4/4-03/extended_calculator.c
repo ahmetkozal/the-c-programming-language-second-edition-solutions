@@ -20,7 +20,7 @@ int bufp = 0;      /* next free position in buf*/
 
 // reverse polish calculator
 int main() {
-    int type;
+    int type, modul_op2;
     double op2;
     char s[BUFSIZE];
 
@@ -43,6 +43,13 @@ int main() {
                 op2 = pop();
                 if (op2 != 0)
                     push(pop() / op2);
+                else
+                    printf("error: divisor is zero");
+                break;
+            case '%':
+                modul_op2 = (int)pop();
+                if (op2 != 0)
+                    push((int)pop() %  modul_op2);
                 else
                     printf("error: divisor is zero");
                 break;
