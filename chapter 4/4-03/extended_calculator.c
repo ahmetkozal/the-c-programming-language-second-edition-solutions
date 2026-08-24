@@ -80,18 +80,28 @@ double pop(void) {
 
 int getop(char s[]) { /*Get next character numeric or operand*/
     int i, c;
+    int sign = 0;
+
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] = '\0';
-    if (!isdigit(c) && c != '.')
-        return c; /*not a number*/
+    if (!isdigit(c) && c != '.' && c!='-' && c!='+')
+        return c;/*Not a number and not - or +*/
     i = 0;
-    if (isdigit(c)) /*collect integer part*/
+
+    if (c == '-' || c == '+')
+        sign = c;
+
+    if (isdigit(c) || sign>0) /*collect integer part*/
         while (isdigit(s[++i] = c = getch()))
             ;
     if (c == '.') /*collect fraction part*/
         while (isdigit(s[++i] = c = getch()))
             ;
+    if (i == 1 && sign != 0) {
+        ungetch(c);
+        return sign;
+    }
     s[i] = '\0';
     if (c != EOF)
         ungetch(c);
