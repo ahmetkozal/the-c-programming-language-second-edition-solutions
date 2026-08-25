@@ -45,14 +45,14 @@ int main() {
                 if (op2 != 0)
                     push(pop() / op2);
                 else
-                    printf("error: divisor is zero");
+                    printf("error: divisor is zero\n");
                 break;
             case '%':
                 modul_op2 = (int)pop();
                 if (op2 != 0)
                     push((int)pop() %  modul_op2);
                 else
-                    printf("error: divisor is zero");
+                    printf("error: divisor is zero\n");
                 break;
             case 't':
                 printf("top is: %g\n", val[sp - 1]);
@@ -67,8 +67,13 @@ int main() {
                     val[sp - 1] = val[sp - 2];
                     val[sp - 2] = to_hold_top;
                 } else {
-                    printf("stack doesn't have at least 2 elements");
+                    printf("stack doesn't have at least 2 elements\n");
                 }
+                break;
+            }
+            case 'c': {
+                sp = 0;
+                printf("stack cleared.\n");
                 break;
             }
             case '\n':
@@ -135,7 +140,7 @@ int getch(void) /* get a (possibly pushed-back) character */
 void ungetch(int c) /* push character back on input */
 {
     if (bufp >= BUFSIZE)
-        printf("ungect: too many character");
+        printf("ungect: too many character\n");
     else
         buf[bufp++] = c;
 }
