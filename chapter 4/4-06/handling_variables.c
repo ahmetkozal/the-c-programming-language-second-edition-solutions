@@ -11,6 +11,7 @@ most recently printed value.
 #define BUFSIZE 100
 #define NUMBER '0' /*Signal that number was found*/
 #define COMMAND '1' /*Signal that command was found*/
+#define VARIABLE '2' /*Signal for variable*/
 
 int getop(char[]);
 void push(double);
@@ -28,9 +29,17 @@ int main() {
     int type, modul_op2;
     double op2;
     char s[BUFSIZE];
+    double mostRecent = -1;
+    double variables[26] = {-1};
+    char var = 1;
+
 
     while ((type = getop(s)) != EOF) {
         switch (type) {
+            case VARIABLE:
+                var = s[0];
+                push(variables[var-'A']);
+                break;
             case COMMAND:
                     if (strcmp(s, "sin") == 0) {
                         push(sin(pop()));
@@ -106,8 +115,18 @@ int main() {
                 printf("stack cleared.\n");
                 break;
             }
+            case '=':{
+                if(isupper(var)){
+                    pop();
+                    variables[var-'A'] = pop();
+                }else{
+                    printf("Invalid variable name");
+                }
+                break;
+            }
             case '\n':
-                printf("\t%.8g\n", pop());
+                mostRecent = pop();
+                printf("\t%.8g\n", mostRecent);
                 break;
             default:
                 printf("error: unkown command %s\n", s);
@@ -139,6 +158,9 @@ int getop(char s[]) { /*Get next character numeric or operand*/
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] = '\0';
+    if(isupper(c)){
+        return VARIABLE;
+    }
     i=0;
     if (!isdigit(c) && c != '.' && c != '-' && c != '+') {
         if (isalpha(c)) {
